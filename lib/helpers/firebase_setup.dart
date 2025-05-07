@@ -1,17 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:portfolio_barao/firebase_options.dart';
 
 class FirebaseConfig {
   late final FirebaseRemoteConfig remoteConfig;
   late final FirebaseApp firebaseApp;
+  late final FirebaseFirestore firebaseFirestore;
 
   Future<void> setupFirebase() async {
     firebaseApp = await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    remoteConfig = FirebaseRemoteConfig.instanceFor(app: firebaseApp);
+    remoteConfig = FirebaseRemoteConfig.instance;
     await initializeFirebaseRemoteConfig();
+
+    firebaseFirestore = FirebaseFirestore.instance;
   }
 
   String getRemoteConfigString(String key) =>
@@ -33,7 +38,7 @@ class FirebaseConfig {
       ),
     );
     await remoteConfig.setDefaults(const {
-      'maintenance_mode': false,
+      'maintenance_mode': true,
     });
     await remoteConfig.setDefaults(const {});
     await remoteConfig.fetchAndActivate();

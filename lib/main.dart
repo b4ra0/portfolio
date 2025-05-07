@@ -8,6 +8,7 @@ import 'package:portfolio_barao/screens/home.dart';
 import 'package:portfolio_barao/screens/maintenance.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   final firebaseConfig = FirebaseConfig();
   await firebaseConfig.setupFirebase();
   KiwiContainer()
