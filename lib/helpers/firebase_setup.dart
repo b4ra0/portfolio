@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:kiwi/kiwi.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:portfolio_barao/firebase_options.dart';
 
 class FirebaseConfig {
   late final FirebaseRemoteConfig remoteConfig;
   late final FirebaseApp firebaseApp;
   late final FirebaseFirestore firebaseFirestore;
+  late final FirebaseStorage firebaseStorage;
 
   Future<void> setupFirebase() async {
     firebaseApp = await Firebase.initializeApp(
@@ -17,6 +18,7 @@ class FirebaseConfig {
     await initializeFirebaseRemoteConfig();
 
     firebaseFirestore = FirebaseFirestore.instance;
+    firebaseStorage = FirebaseStorage.instance;
   }
 
   String getRemoteConfigString(String key) =>
