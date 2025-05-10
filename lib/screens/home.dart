@@ -17,8 +17,15 @@ class Home extends StatelessWidget {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     return Scaffold(
       body: Center(
-        child: FutureBuilder<DocumentSnapshot>(
-          future: users.doc('0vRZpWJr1X7EGXIPzvW2').get(),
+        child: FutureBuilder<List<dynamic>>(
+          future: Future.wait([
+            users.doc('0vRZpWJr1X7EGXIPzvW2').get(),
+            KiwiContainer()
+                .resolve<FirebaseConfig>('firebaseConfig')
+                .firebaseStorage
+                .ref('/user_photos/0vRZpWJr1X7EGXIPzvW2.JPG')
+                .getDownloadURL(),
+          ]),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -26,16 +33,18 @@ class Home extends StatelessWidget {
             if (snapshot.hasError) {
               return const Center(child: Text('Error loading data'));
             }
-            if (!snapshot.hasData || !snapshot.data!.exists) {
+            if (!snapshot.hasData || !snapshot.data!.isNotEmpty) {
               return const Center(child: Text('User not found'));
             }
             final userData =
-                User.fromJson(snapshot.data!.data() as Map<String, dynamic>);
+                User.fromJson(snapshot.data![0].data() as Map<String, dynamic>);
+            final userPhotoUrl = snapshot.data![1];
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SidebarProfile(
                   userData: userData,
+                  userPhotoUrl: userPhotoUrl,
                 ),
                 SizedBox(
                   width: 10,

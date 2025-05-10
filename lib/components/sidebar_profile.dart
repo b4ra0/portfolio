@@ -7,9 +7,10 @@ import 'package:portfolio_barao/helpers/firebase_setup.dart';
 import 'package:portfolio_barao/models/user.dart';
 
 class SidebarProfile extends StatelessWidget {
-  const SidebarProfile({super.key, required this.userData});
+  const SidebarProfile({super.key, required this.userData, required this.userPhotoUrl});
 
   final User userData;
+  final String userPhotoUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -25,25 +26,13 @@ class SidebarProfile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FutureBuilder(
-                  future: KiwiContainer()
-                      .resolve<FirebaseConfig>('firebaseConfig')
-                      .firebaseStorage
-                      .ref('/user_photos/0vRZpWJr1X7EGXIPzvW2.JPG')
-                      .getDownloadURL(),
-                  builder: (context, snapshot) {
-                    print(snapshot.data.toString());
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    return CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(
-                        snapshot.data.toString(),
-                        scale: 1.0,
-                      ),
-                    );
-                  }),
+              CircleAvatar(
+                radius: 50,
+                backgroundImage: NetworkImage(
+                  userPhotoUrl,
+                  scale: 1.0,
+                ),
+              ),
               const SizedBox(height: 16),
               Text(
                 userData.name,
