@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:dev_icons/src/dev_icon_data.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:portfolio_barao/components/icon_and_text.dart';
+import 'package:portfolio_barao/components/tools_tile.dart';
 import 'package:portfolio_barao/helpers/firebase_setup.dart';
 import 'package:portfolio_barao/models/user.dart';
 
@@ -58,6 +60,31 @@ class SidebarProfile extends StatelessWidget {
               IconAndText(
                   icon: Icons.perm_contact_calendar_sharp,
                   text: userData.age.toString() + ' years old'),
+
+              SizedBox(
+                height: 16,
+              ),
+              Divider(),
+              const SizedBox(height: 16),
+              Text(
+                'Skills',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: userData.mainTools!.map((tool) {
+                  return ToolsTile(
+                    icon: tool.icon,
+                    text: tool.name,
+                    iconColor: Colors.white,
+                  );
+                }).toList(),
+              ),
             ],
           ),
         ),

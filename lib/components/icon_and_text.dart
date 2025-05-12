@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class IconAndText extends StatelessWidget {
   final IconData icon;
   final String text;
+  final Color? iconColor;
 
-  const IconAndText({super.key, required this.icon, required this.text});
+  const IconAndText({super.key, required this.icon, required this.text, this.iconColor});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,7 @@ class IconAndText extends StatelessWidget {
         children: [
           Icon(
             icon,
+            color: iconColor ?? Colors.white,
           ),
           const SizedBox(width: 8),
           Text(
