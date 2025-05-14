@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_barao/models/user.dart';
 import 'package:portfolio_barao/screens/tabs/about_me.dart';
+import 'package:portfolio_barao/screens/tabs/academic_experience.dart';
 
 class ContentCard extends StatefulWidget {
   ContentCard({super.key, required this.userData});
@@ -35,7 +36,7 @@ class _ContentCardState extends State<ContentCard> with SingleTickerProviderStat
               controller: widget.tabController,
               tabs: [
                 Tab(text: 'About me'),
-                Tab(text: 'Academical experience'),
+                Tab(text: 'Academic experience'),
                 Tab(text: 'Professional experience'),
                 Tab(text: 'Projects'),
               ],
@@ -46,7 +47,7 @@ class _ContentCardState extends State<ContentCard> with SingleTickerProviderStat
                 controller: widget.tabController,
                 children: [
                   AboutMe(user: widget.userData),
-                  const Center(child: Text('Academical experience')),
+                  AcademicExperience(user: widget.userData),
                   const Center(child: Text('Professional experience')),
                   const Center(child: Text('Projects')),
                 ],

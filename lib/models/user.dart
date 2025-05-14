@@ -40,6 +40,12 @@ class User{
         throw Exception('Tool data is null');
       }
     }).toList();
+
+    final professionalExperienceRefs = (json['professional_experience'] as List)
+        .map((e) => e as DocumentReference<Map<String, dynamic>>)
+        .toList();
+    final professionalExperienceDocs = await Future.wait(professionalExperienceRefs.map((ref) => ref.get()));
+    print(professionalExperienceDocs);
     return User(
       uuid: json['uuid'] as String,
       name: json['name'] as String,
