@@ -18,7 +18,7 @@ class IconAndText extends StatelessWidget {
             color: iconColor ?? Colors.white,
           ),
           const SizedBox(width: 8),
-          Text(
+          SelectableText(
             text,
             style: const TextStyle(
               fontSize: 16,

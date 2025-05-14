@@ -12,6 +12,7 @@ class User{
     required this.title,
     this.mainTools,
     this.photoUrl,
+    this.aboutMe,
   });
 
   String uuid;
@@ -23,6 +24,7 @@ class User{
   String title;
   List<Tool>? mainTools;
   String? photoUrl;
+  String? aboutMe;
 
   static Future<User> fromJson(Map<String, dynamic> json, {String? photoUrl}) async {
     final mainToolsRefs = (json['main_tools'] as List)
@@ -48,6 +50,7 @@ class User{
       title: json['title'] as String,
       photoUrl: photoUrl,
       mainTools: mainTools,
+      aboutMe: json['about_me'] as String?,
     );
   }
 
@@ -60,6 +63,7 @@ class User{
       'email': email,
       'age': age,
       'title': title,
+      'about_me': aboutMe,
     };
   }
 

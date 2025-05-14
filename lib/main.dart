@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         useMaterial3: true,
       ),
-      home: KiwiContainer()
+      home: Platform.isWindows || Platform.isLinux ? Home() : KiwiContainer()
               .resolve<FirebaseConfig>('firebaseConfig')
               .getRemoteConfigBool('maintenance_mode')
           ? MaintenanceScreen()

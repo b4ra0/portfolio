@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio_barao/models/user.dart';
+import 'package:portfolio_barao/screens/tabs/about_me.dart';
 
-class ContentCard extends StatelessWidget {
-  const ContentCard({super.key});
+class ContentCard extends StatefulWidget {
+  ContentCard({super.key, required this.userData});
 
+  late TabController tabController;
+  final User userData;
+
+  @override
+  State<ContentCard> createState() => _ContentCardState();
+}
+
+class _ContentCardState extends State<ContentCard> with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    widget.tabController = TabController(length: 4, vsync: this);
+    widget.tabController.addListener(() => setState(() {}));
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -13,12 +29,31 @@ class ContentCard extends StatelessWidget {
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(),
         ),
-        child: const Center(
-          child: Text(
-            'Home Screen',
-            style: TextStyle(fontSize: 24),
-          ),
-        ),
+        child: Column(
+          children: [
+            TabBar(
+              controller: widget.tabController,
+              tabs: [
+                Tab(text: 'About me'),
+                Tab(text: 'Academical experience'),
+                Tab(text: 'Professional experience'),
+                Tab(text: 'Projects'),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: TabBarView(
+                controller: widget.tabController,
+                children: [
+                  AboutMe(user: widget.userData),
+                  const Center(child: Text('Academical experience')),
+                  const Center(child: Text('Professional experience')),
+                  const Center(child: Text('Projects')),
+                ],
+              ),
+            ),
+          ],
+        )
       ),
     );
   }

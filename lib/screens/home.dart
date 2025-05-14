@@ -36,7 +36,7 @@ class Home extends StatelessWidget {
                 SizedBox(
                   width: 10,
                 ),
-                ContentCard(),
+                ContentCard(userData: userData),
               ],
             );
           },
