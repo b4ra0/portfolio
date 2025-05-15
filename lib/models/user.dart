@@ -1,4 +1,7 @@
+import 'dart:js_interop';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:portfolio_barao/models/professional_experience.dart';
 import 'package:portfolio_barao/models/tool.dart';
 
 class User{
@@ -13,6 +16,7 @@ class User{
     this.mainTools,
     this.photoUrl,
     this.aboutMe,
+    this.professionalExperiences,
   });
 
   String uuid;
@@ -25,12 +29,12 @@ class User{
   List<Tool>? mainTools;
   String? photoUrl;
   String? aboutMe;
+  List<ProfessionalExperience>? professionalExperiences;
 
-  static Future<User> fromJson(Map<String, dynamic> json, {String? photoUrl}) async {
+  static Future<User> fromJson(Map<String, dynamic> json, {String? photoUrl, required QuerySnapshot<Map<String, dynamic>> professionalExperiencesDocs}) async {
     final mainToolsRefs = (json['main_tools'] as List)
         .map((e) => e as DocumentReference<Map<String, dynamic>>)
         .toList();
-
     final mainToolsDocs = await Future.wait(mainToolsRefs.map((ref) => ref.get()));
     final mainTools = mainToolsDocs.map((doc) {
       final data = doc.data();
@@ -40,12 +44,11 @@ class User{
         throw Exception('Tool data is null');
       }
     }).toList();
+    
+    List<ProfessionalExperience> professionalExperiences = [];
 
-    final professionalExperienceRefs = (json['professional_experience'] as List)
-        .map((e) => e as DocumentReference<Map<String, dynamic>>)
-        .toList();
-    final professionalExperienceDocs = await Future.wait(professionalExperienceRefs.map((ref) => ref.get()));
-    print(professionalExperienceDocs);
+    professionalExperiencesDocs.docs.map((e) => professionalExperiences.add(ProfessionalExperience.fromJson(e.data())));
+    print(professionalExperiences);
     return User(
       uuid: json['uuid'] as String,
       name: json['name'] as String,
@@ -57,6 +60,7 @@ class User{
       photoUrl: photoUrl,
       mainTools: mainTools,
       aboutMe: json['about_me'] as String?,
+      professionalExperiences: professionalExperiences,
     );
   }
 

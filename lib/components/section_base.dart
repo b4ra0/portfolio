@@ -9,15 +9,17 @@ class SectionBase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-        SectionTitle(title: title),
-        SizedBox(height: 16),
-        ...widgets,
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          SectionTitle(title: title),
+          SizedBox(height: 16),
+          ...widgets,
+          ],
+        ),
       ),
     );
   }

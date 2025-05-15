@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:portfolio_barao/firebase_options.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class FirebaseConfig {
   late final FirebaseRemoteConfig remoteConfig;
@@ -17,7 +18,7 @@ class FirebaseConfig {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     remoteConfig = FirebaseRemoteConfig.instance;
-    if (!Platform.isWindows && !Platform.isLinux) {
+    if (!UniversalPlatform.isWindows && !UniversalPlatform.isLinux) {
       await initializeFirebaseRemoteConfig();
     }
 

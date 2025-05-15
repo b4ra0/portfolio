@@ -47,12 +47,13 @@ class Home extends StatelessWidget {
 
   Future<User> loadUser(String userId) async {
     final doc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    final professionalExperiences = await FirebaseFirestore.instance.collection('users').doc(userId).collection('professionalExperiences').get();
     final url = await KiwiContainer()
         .resolve<FirebaseConfig>('firebaseConfig')
         .firebaseStorage
         .ref('/user_photos/$userId.JPG')
         .getDownloadURL();
 
-    return await User.fromJson(doc.data()!, photoUrl: url);
+    return await User.fromJson(doc.data()!, professionalExperiencesDocs: professionalExperiences, photoUrl: url);
   }
 }
