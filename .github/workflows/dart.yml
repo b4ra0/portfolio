@@ -18,14 +18,27 @@ jobs:
       with:
         flutter-version: '3.22.2'
 
-    - name: Setting up Firebase config
-      run: curl -sL https://firebase.tools | bash
-
     - name: Enable Flutter web
       run: flutter config --enable-web
 
     - name: Install dependencies
       run: flutter pub get
+
+
+    - name: Install Firebase CLI
+      run: npm install -g firebase-tools
+
+    - name: Install FlutterFire CLI
+      run: dart pub global activate flutterfire_cli
+
+    - name: Configure FlutterFire
+      run: |
+        flutterfire configure --project=SEU_ID_DO_PROJETO_FIREBASE \
+        --out=lib/firebase_options.dart \
+        --yes \
+        --platforms=android,ios,web # Especifique as plataformas desejadas
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
     - name: Build Flutter Web
       run: flutter build web
