@@ -1,10 +1,8 @@
-import 'dart:js_interop';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:portfolio_barao/models/professional_experience.dart';
 import 'package:portfolio_barao/models/tool.dart';
 
-class User{
+class User {
   User({
     required this.uuid,
     required this.name,
@@ -31,11 +29,14 @@ class User{
   String? aboutMe;
   List<ProfessionalExperience>? professionalExperiences;
 
-  static Future<User> fromJson(Map<String, dynamic> json, {String? photoUrl, required QuerySnapshot<Map<String, dynamic>> professionalExperiencesDocs}) async {
+  static Future<User> fromJson(Map<String, dynamic> json,
+      {String? photoUrl,
+      QuerySnapshot<Map<String, dynamic>>? professionalExperiencesDocs}) async {
     final mainToolsRefs = (json['main_tools'] as List)
         .map((e) => e as DocumentReference<Map<String, dynamic>>)
         .toList();
-    final mainToolsDocs = await Future.wait(mainToolsRefs.map((ref) => ref.get()));
+    final mainToolsDocs =
+        await Future.wait(mainToolsRefs.map((ref) => ref.get()));
     final mainTools = mainToolsDocs.map((doc) {
       final data = doc.data();
       if (data != null) {
@@ -44,11 +45,15 @@ class User{
         throw Exception('Tool data is null');
       }
     }).toList();
-    
+
     List<ProfessionalExperience> professionalExperiences = [];
 
-    professionalExperiencesDocs.docs.map((e) => professionalExperiences.add(ProfessionalExperience.fromJson(e.data())));
-    print(professionalExperiences);
+    if (professionalExperiencesDocs != null) {
+      professionalExperiencesDocs.docs
+          .map((doc) => professionalExperiences
+              .add(ProfessionalExperience.fromJson(doc.data())))
+          .toList();
+    }
     return User(
       uuid: json['uuid'] as String,
       name: json['name'] as String,
@@ -76,5 +81,4 @@ class User{
       'about_me': aboutMe,
     };
   }
-
 }

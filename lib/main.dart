@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         useMaterial3: true,
+        fontFamily: 'Poppins',
       ),
       home: UniversalPlatform.isWindows || UniversalPlatform.isLinux ? Home() : KiwiContainer()
               .resolve<FirebaseConfig>('firebaseConfig')

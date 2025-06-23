@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:portfolio_barao/models/tool.dart';
 
 class ProfessionalExperience {
@@ -29,11 +30,10 @@ class ProfessionalExperience {
       location: json['location'],
       name: json['name'],
       position: json['position'],
-      startDate: json['start'],
-      endDate: json['end'],
+      startDate: json['start'].toDate(),
+      endDate: json['end'].toDate(),
       url: json['url'],
       logoUrl: json['logo_url'],
-      tools: json['tools'],
     );
   }
 

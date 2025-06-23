@@ -26,6 +26,7 @@ class Home extends StatelessWidget {
               return const Center(child: Text('User not found'));
             }
             final userData = snapshot.data!;
+            print(userData.professionalExperiences);
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -47,7 +48,7 @@ class Home extends StatelessWidget {
 
   Future<User> loadUser(String userId) async {
     final doc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
-    final professionalExperiences = await FirebaseFirestore.instance.collection('users').doc(userId).collection('professionalExperiences').get();
+    final professionalExperiences = await FirebaseFirestore.instance.collection('users').doc(userId).collection('professionalExperiences').orderBy('start').get();
     final url = await KiwiContainer()
         .resolve<FirebaseConfig>('firebaseConfig')
         .firebaseStorage
