@@ -38,7 +38,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
-        source: "build/web/*"
+        source: "build/web/" # Otimizado para copiar todo o conteúdo
         target: ${{ secrets.PATH }}
 
     - name: Restart web server (opcional)
