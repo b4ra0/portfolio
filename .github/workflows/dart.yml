@@ -18,9 +18,13 @@ jobs:
       with:
         flutter-version: '3.22.2'
 
+    # PASSO CRÍTICO: Adicione este passo para corrigir o PATH que foi sobrescrito pela ação do Flutter.
+    - name: Fix PATH environment variable
+      run: echo "PATH=/usr/bin:/bin:$PATH" >> $GITHUB_ENV
+
     - name: Create firebase_options.dart
       run: |
-        /bin/mkdir -p lib
+        mkdir -p lib
         echo "${{ secrets.FIREBASE_OPTIONS_DART }}" > lib/firebase_options.dart
 
     - name: Enable Flutter web
